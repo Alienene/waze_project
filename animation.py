@@ -1,5 +1,20 @@
 import pygame
 
+window = pygame.display.set_mode((1200,650))
+class Wall():
+    def __init__(self,x=0,y=0,width=0,height=0,color=(22,26,31)):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.fill_color = color
+    def fill(self):
+        pygame.draw.rect(window, self.fill_color, self.rect)
+
+walls = [Wall(50, 50, 100, 10),
+    Wall(170, 75, 10, 50),
+    Wall(100, 175, 120, 10),
+    Wall(200, 340, 100, 10)
+    ]
+
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position):
@@ -17,6 +32,9 @@ class Player(pygame.sprite.Sprite):
                      3: (156,152,52,76)}
         self.up = {0: (0,228,52,76), 1: (52,228,52,76), 2: (104,228,52,76),
                      3: (156,228,52,76)}
+        
+
+
         
     def update_frame(self, frame_set): # ф-ція для перебору спрайтів 
         self.frame += 1
@@ -36,15 +54,27 @@ class Player(pygame.sprite.Sprite):
         if direction == "down":
             self.clip(self.down)
             self.rect.y += 5
+            for w in walls:
+                if player.rect.colliderect(w.rect):
+                    player.rect.bottom = w.rect.top
         if direction == "left":
             self.clip(self.left)
             self.rect.x -= 5  
+            for w in walls:
+                if player.rect.colliderect(w.rect):
+                    player.rect.left = w.rect.right
         if direction == "right":
             self.clip(self.right)
             self.rect.x += 5 
+            for w in walls:
+                if player.rect.colliderect(w.rect):
+                    player.rect.right = w.rect.left
         if direction == "up":
             self.clip(self.up)
             self.rect.y -= 5 
+            for w in walls:
+                if player.rect.colliderect(w.rect):
+                    player.rect.top = w.rect.bottom
 
         
         if direction == "stand_down":
@@ -82,4 +112,7 @@ class Player(pygame.sprite.Sprite):
             if event.key == pygame.K_DOWN:
                 self.update('stand_down')
         
+            
+       
 
+player = Player((50,60))
