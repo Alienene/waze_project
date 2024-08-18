@@ -7,12 +7,35 @@ class Wall():
         self.fill_color = color
     def fill(self):
         pygame.draw.rect(window, self.fill_color, self.rect)
+    def collides_with(self, x, y):
+        return self.x <= x <= self.x + self.width and self.y <= y <= self.y + self.height
 
-walls = [Wall(50, 50, 100, 10),
-    Wall(170, 75, 10, 50),
-    Wall(100, 175, 120, 10),
-    Wall(200, 340, 100, 10)
-    ]
+walls = [
+    Wall(50, 50, 150, 10),
+    Wall(250, 50, 10, 100),
+    Wall(100, 250, 350, 10),
+    Wall(600, 400, 200, 10),
+    Wall(850, 300, 10, 150),
+    Wall(200, 500, 450, 10),
+    Wall(750, 500, 10, 100),
+    Wall(1000, 550, 150, 10),
+    Wall(1100, 50, 10, 450),
+    Wall(300, 150, 150, 10),
+    Wall(600, 50, 150, 10),
+    Wall(50, 550, 250, 10),
+    Wall(800, 100, 150, 10),
+    Wall(500, 450, 150, 10),
+    Wall(150, 300, 100, 10),
+    Wall(900, 150, 50, 10),
+    Wall(200, 400, 100, 10),
+    Wall(700, 50, 10, 150),
+    Wall(600, 300, 100, 10),
+    Wall(400, 500, 150, 10),
+    Wall(300, 600, 350, 10),
+    Wall(900, 350, 100, 10),
+    Wall(1050, 300, 10, 50)
+]
+
 
 
 
@@ -112,7 +135,5 @@ class Player(pygame.sprite.Sprite):
             if event.key == pygame.K_DOWN:
                 self.update('stand_down')
         
-            
-       
 
 player = Player((50,60))

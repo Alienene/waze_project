@@ -7,7 +7,7 @@ picture1 = pygame.image.load("background1.png")
 picture1 = pygame.transform.scale(picture1,(1200,650))
 
 clock = pygame.time.Clock()
-enemy1 = Enemy(220, 490, 150, 100, 'enemie1.png')
+enemy1 = Enemy(50, 550, 150, 100, 'enemie1.png')
 game = True
 
 # class Player(pygame.sprite.Sprite):
@@ -29,7 +29,6 @@ while game:
     window.blit(enemy1.image, (enemy1.rect.x, enemy1.rect.y))  
     for w in walls:
         w.fill()
-
 
 
     clock.tick(30)
