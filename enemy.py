@@ -14,7 +14,7 @@ class Enemy(): # клас для створення шаблону персон�
         self.x = x
         self.y = y
         self.attack_range = attack_range
-        self.bullets = bullets  # Список пуль, которые стреляет враг
+        self.bullets = bullets 
 
     def distance_to_player(self, player):
         return ((self.x - player.x) ** 2 + (self.y - player.y) ** 2) ** 0.5
@@ -24,7 +24,6 @@ class Enemy(): # клас для створення шаблону персон�
             self.attack(player)
 
     def attack(self, player):
-        # Создаем пулю, направленную на игрока
         bullet = Bullet(self.x, self.y, player.x, player.y)
         self.bullets.append(bullet)
 
@@ -42,7 +41,7 @@ class Bullet:
         direction_y = self.target_y - self.y
         distance = (direction_x ** 2 + direction_y ** 2) ** 0.5
 
-        # Нормализуем направление
+
         direction_x /= distance
         direction_y /= distance
 
