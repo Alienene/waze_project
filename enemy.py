@@ -34,7 +34,7 @@ class Bullet:
         self.y = y
         self.target_x = target_x
         self.target_y = target_y
-        self.speed = 5  # Скорость пули
+        self.speed = 5  
 
     def move(self):
         direction_x = self.target_x - self.x
