@@ -26,7 +26,9 @@ walls = [
     Wall(840, 400, 250, 10),   
     Wall(1090, 400, 10, 150),
     Wall(550, 150, 10, 150),
-    Wall(840, 410, 10, 150)
+    Wall(840, 410, 10, 150),
+    Wall(840, 150, 10, 150),
+    Wall(940, 300, 10, 100)
 ]
 
 
@@ -35,20 +37,39 @@ walls = [
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position):
-        self.sheet = pygame.image.load('serge.png')
-        self.sheet.set_clip(pygame.Rect(0,0,52,76))
+        self.sheet = pygame.image.load('player2.png')
+        self.sheet.set_clip(pygame.Rect(0,0,48,64))
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         self.rect = self.image.get_rect()
         self.rect.topleft = position
         self.frame = 0 # рамка
-        self.down = {0: (0,0,52,76), 1: (52,0,52,76), 2: (104,0,52,76),
-                     3: (156,0,52,76)}
-        self.left = {0: (0,76,52,76), 1: (52,76,52,76), 2: (104,76,52,76),
-                     3: (156,76,52,76)}
-        self.right = {0: (0,152,52,76), 1: (52,152,52,76), 2: (104,152,52,76),
-                     3: (156,152,52,76)}
-        self.up = {0: (0,228,52,76), 1: (52,228,52,76), 2: (104,228,52,76),
-                     3: (156,228,52,76)}
+        self.down = {
+    0: (0, 0, 48, 64), 
+    1: (48, 0, 48, 64), 
+    2: (96, 0, 48, 64),
+    3: (144, 0, 48, 64)
+}
+        self.left = {
+    0: (0, 64, 48, 64), 
+    1: (48, 64, 48, 64), 
+    2: (96, 64, 48, 64),
+    3: (144, 64, 48, 64)
+}
+        self.right = {
+    0: (0, 128, 48, 64), 
+    1: (48, 128, 48, 64), 
+    2: (96, 128, 48, 64),
+    3: (144, 128, 48, 64)
+}
+        self.up = {
+    0: (0, 192, 48, 64), 
+    1: (48, 192, 48, 64), 
+    2: (96, 192, 48, 64),
+    3: (144, 192, 48, 64)
+}
+
+
+
         
 
 
