@@ -1,5 +1,4 @@
 import pygame
-import random
 from enemy import Enemy, bullets
 from animation import walls, window, player
 pygame.init()
@@ -12,6 +11,7 @@ pygame.mixer.music.load('background_music.mp3')
 star_collect = pygame.mixer.Sound('star_collect.mp3')
 
 receiving_damage = pygame.mixer.Sound('damage.mp3')
+pygame.mixer.music.set_volume(2)
 
 star_image = pygame.image.load('star.png')
 star_image = pygame.transform.scale(star_image, (65, 65))
@@ -25,6 +25,7 @@ heart_image = pygame.transform.scale(heart_image, (40, 40))
 
 clock = pygame.time.Clock()
 enemy1 = Enemy(320, 490, 160, 100, 'enemy.png')
+enemy2 = Enemy(960, 440, 160, 100, 'enemy.png')
 game = True
 pygame.mixer.music.play(-1)
 
@@ -45,11 +46,13 @@ while game:
     
     window.blit(player.image, player.rect)
     window.blit(enemy1.image, (enemy1.rect.x, enemy1.rect.y))  
+    window.blit(enemy2.image, (enemy2.rect.x, enemy2.rect.y))  
     for w in walls:
         w.fill()
     zminna += 1
     if zminna == 40:
         enemy1.shoot()
+        enemy2.shoot()
         zminna = 0
     l_bool = True
     for bullet in bullets:
@@ -66,6 +69,7 @@ while game:
             game = False 
         for star in stars[:]:
             if player.rect.colliderect(pygame.Rect(star[0], star[1], star_image.get_width(), star_image.get_height())):
+                pygame.mixer.Sound.play(star_collect)
                 stars.remove(star)
                 collected_stars += 1
         
