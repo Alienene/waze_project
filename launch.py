@@ -36,6 +36,17 @@ life = 3
 zminna = 0
 while game:
 
+    def pause_game():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Нажмите 'P' чтобы продолжить
+                    paused = False
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game = False
@@ -72,6 +83,9 @@ while game:
                 pygame.mixer.Sound.play(star_collect)
                 stars.remove(star)
                 collected_stars += 1
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:  # Нажмите 'P' чтобы поставить на паузу
+                pause_game()
         
                 
 
