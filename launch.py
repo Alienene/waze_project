@@ -167,6 +167,7 @@ enemy2 = Enemy(960, 440, 160, 100, 'enemy.png')
 door = Enemy(1860, 440, 120, 100, 'door.png')
 level1 = True
 level2 = False
+level3 = False
 game = True
 pygame.mixer.music.play(-1)
 
@@ -250,7 +251,7 @@ while game:
             player.rect.x, player.rect.y = 50, 50
             door.rect.x, door.rect.y = 1000, 2000
             enemy1.rect.x, enemy1.rect.y = 250, 500
-            enemy2.rect.x, enemy2.rect.y = 200, 210
+            enemy2.rect.x, enemy2.rect.y = 180, 230
 
             collected_stars = 0
 
@@ -264,6 +265,96 @@ while game:
             window.blit(heart_image, (10 + i * (heart_image.get_width() + 5), 10))
 
     if level2:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game = False
+
+        player.events(event)
+        window.fill((0,0,0))
+        window.blit(picture1,(0,0))
+        
+        window.blit(player.image, player.rect)
+        window.blit(enemy1.image, (enemy1.rect.x, enemy1.rect.y))  
+        window.blit(enemy2.image, (enemy2.rect.x, enemy2.rect.y))  
+        window.blit(door.image, (door.rect.x, door.rect.y))  
+        for w in walls:
+            w.fill()
+        zminna += 1
+        if zminna == 40:
+            enemy1.shoot()
+            enemy2.shoot()
+            zminna = 0
+        for bullet in bullets:
+            bullet.move()
+            pygame.draw.rect(window, (255, 0, 0), bullet.rect)
+            if player.rect.colliderect(bullet.rect):  
+                life -= 1
+                pygame.mixer.Sound.play(receiving_damage)
+                bullets.remove(bullet)
+            for w in walls:
+                if w.rect.colliderect(bullet.rect):
+                    bullets.remove(bullet)
+            if life == 0: 
+                game = False 
+            for star in stars[:]:
+                if player.rect.colliderect(pygame.Rect(star[0], star[1], star_image.get_width(), star_image.get_height())):
+                    pygame.mixer.Sound.play(star_collect)
+                    stars.remove(star)
+                    collected_stars += 1
+
+        if collected_stars >= 3:
+            door.rect.x, door.rect.y = 50, 100
+
+        if player.rect.colliderect(door.rect):
+            level2 = False
+            level3 = True
+            
+            # третій рівень
+            walls = [
+                Wall(0, 0, 1200, 10),        
+                Wall(0, 640, 1200, 10),     
+                Wall(0, 0, 10, 650),        
+                Wall(1190, 0, 10, 650),    
+                Wall(50, 70, 10, 510),     
+                Wall(50, 580, 450, 10),    
+                Wall(490, 70, 10, 220),    
+                Wall(150, 150, 100, 10),   
+                Wall(240, 150, 10, 200),   
+                Wall(150, 340, 250, 10),   
+                Wall(340, 150, 10, 200),   
+                Wall(540, 70, 400, 10),    
+                Wall(940, 70, 10, 480),    
+                Wall(600, 150, 100, 10),   
+                Wall(900, 150, 150, 10),   
+                Wall(750, 240, 10, 200),   
+                Wall(590, 430, 250, 10),   
+                Wall(590, 310, 10, 120),   
+                Wall(400, 440, 250, 10),   
+                Wall(750, 520, 10, 80),    
+                Wall(890, 520, 10, 80),    
+                Wall(750, 520, 150, 10),   
+            ]
+
+            # Додаємо нові зірки на третьому рівні
+            stars = [(650, 350), (150, 200), (850, 70)]
+
+            player.rect.x, player.rect.y = 50, 50
+            door.rect.x, door.rect.y = 1000, 2000
+            enemy1.rect.x, enemy1.rect.y = 600, 100
+            enemy2.rect.x, enemy2.rect.y = 350, 450
+
+            collected_stars = 0
+
+        for star in stars:
+            window.blit(star_image, star)
+
+        for i in range(collected_stars):
+            window.blit(star_image, (1050 + i * 40, 7))
+
+        for i in range(life):
+            window.blit(heart_image, (10 + i * (heart_image.get_width() + 5), 10))
+
+    if level3:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game = False
