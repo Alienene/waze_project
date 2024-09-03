@@ -46,8 +46,6 @@ walls = [
     Wall(940, 300, 10, 100)
 ]
 
-
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, position):
         self.sheet = pygame.image.load('player2.png')
@@ -55,44 +53,37 @@ class Player(pygame.sprite.Sprite):
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         self.rect = self.image.get_rect()
         self.rect.topleft = position
-        self.frame = 0 # рамка
+        self.frame = 0  # рамка
         self.down = {
-    0: (12, 0, 45, 63), 
-    1: (77, 0, 45, 63), 
-    2: (142, 0, 45, 63),
-    3: (207, 0, 45, 63)
-}
+            0: (12, 0, 45, 63), 
+            1: (77, 0, 45, 63), 
+            2: (142, 0, 45, 63),
+            3: (207, 0, 45, 63)
+        }
         self.left = {
-    0: (12, 63, 45, 63), 
-    1: (77, 63, 45, 63), 
-    2: (142, 63, 45, 63),
-    3: (207, 63, 45, 63)
-}
+            0: (12, 63, 45, 63), 
+            1: (77, 63, 45, 63), 
+            2: (142, 63, 45, 63),
+            3: (207, 63, 45, 63)
+        }
         self.right = {
-    0: (12, 126, 45, 63), 
-    1: (77, 126, 45, 63), 
-    2: (142, 126, 45, 63),
-    3: (207, 126, 45, 63)
-}
+            0: (12, 126, 45, 63), 
+            1: (77, 126, 45, 63), 
+            2: (142, 126, 45, 63),
+            3: (207, 126, 45, 63)
+        }
         self.up = {
-    0: (12, 189, 45, 63), 
-    1: (77, 189, 45, 63), 
-    2: (142, 189, 45, 63),
-    3: (207, 189, 45, 63)
-}
+            0: (12, 189, 45, 63), 
+            1: (77, 189, 45, 63), 
+            2: (142, 189, 45, 63),
+            3: (207, 189, 45, 63)
+        }
 
-
-
-        
-
-
-        
-    def update_frame(self, frame_set): # ф-ція для перебору спрайтів 
+    def update_frame(self, frame_set):  # ф-ція для перебору спрайтів 
         self.frame += 1
         if self.frame > (len(frame_set)-1):
             self.frame = 0
         return frame_set[self.frame]
-
 
     def clip(self, clip_rect):
         if type(clip_rect) is dict:
@@ -104,30 +95,29 @@ class Player(pygame.sprite.Sprite):
     def update(self, direction):
         if direction == "down":
             self.clip(self.down)
-            self.rect.y += 20
+            self.rect.y += 7
             for w in walls:
                 if player.rect.colliderect(w.rect):
                     player.rect.bottom = w.rect.top
         if direction == "left":
             self.clip(self.left)
-            self.rect.x -= 20
+            self.rect.x -= 7
             for w in walls:
                 if player.rect.colliderect(w.rect):
                     player.rect.left = w.rect.right
         if direction == "right":
             self.clip(self.right)
-            self.rect.x += 20
+            self.rect.x += 7
             for w in walls:
                 if player.rect.colliderect(w.rect):
                     player.rect.right = w.rect.left
         if direction == "up":
             self.clip(self.up)
-            self.rect.y -= 20
+            self.rect.y -= 7
             for w in walls:
                 if player.rect.colliderect(w.rect):
                     player.rect.top = w.rect.bottom
 
-        
         if direction == "stand_down":
             self.clip(self.down[0])
         if direction == "stand_left":
@@ -138,7 +128,6 @@ class Player(pygame.sprite.Sprite):
             self.clip(self.up[0])
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
-
 
     def events(self, event):
         if event.type == pygame.QUIT:
@@ -163,8 +152,7 @@ class Player(pygame.sprite.Sprite):
             if event.key == pygame.K_DOWN:
                 self.update('stand_down')
 
-player = Player((50,60))
-
+player = Player((50, 60))
 
 stars = [(350, 410), (940, 430), (590, 190)]
 
@@ -182,9 +170,6 @@ level2 = False
 game = True
 pygame.mixer.music.play(-1)
 
-# class Player(pygame.sprite.Sprite):
-#     def __init__(self, position):
-#         self.sheet = pygame.image.load('enemie1.png')
 life = 3
 zminna = 0
 while game:
@@ -208,7 +193,6 @@ while game:
             enemy1.shoot()
             enemy2.shoot()
             zminna = 0
-        l_bool = True
         for bullet in bullets:
             bullet.move()
             pygame.draw.rect(window, (255, 0, 0), bullet.rect)
@@ -235,6 +219,7 @@ while game:
             level1 = False
             level2 = True
             
+            #другий рівень
             walls = [
                 Wall(0, 0, 1200, 10),      
                 Wall(0, 640, 1200, 10),    
@@ -259,14 +244,15 @@ while game:
                 Wall(610, 600, 200, 10), 
             ]
 
+            # Додаємо нові зірки на другому рівні
+            stars = [(150, 360), (100, 580), (880, 150)]
 
             player.rect.x, player.rect.y = 50, 50
-            door.rect.x, door.rect.y = 1000,2000
-            enemy1.rect.x, enemy1.rect.y = 1000,2000
-            enemy2.rect.x, enemy2.rect.y = 1000,2000
+            door.rect.x, door.rect.y = 1000, 2000
+            enemy1.rect.x, enemy1.rect.y = 250, 500
+            enemy2.rect.x, enemy2.rect.y = 200, 210
 
             collected_stars = 0
-            
 
         for star in stars:
             window.blit(star_image, star)
@@ -277,9 +263,7 @@ while game:
         for i in range(life):
             window.blit(heart_image, (10 + i * (heart_image.get_width() + 5), 10))
 
-   
     if level2:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game = False
@@ -294,6 +278,32 @@ while game:
         window.blit(door.image, (door.rect.x, door.rect.y))  
         for w in walls:
             w.fill()
+        zminna += 1
+        if zminna == 40:
+            enemy1.shoot()
+            enemy2.shoot()
+            zminna = 0
+        for bullet in bullets:
+            bullet.move()
+            pygame.draw.rect(window, (255, 0, 0), bullet.rect)
+            if player.rect.colliderect(bullet.rect):  
+                life -= 1
+                pygame.mixer.Sound.play(receiving_damage)
+                bullets.remove(bullet)
+            for w in walls:
+                if w.rect.colliderect(bullet.rect):
+                    bullets.remove(bullet)
+            if life == 0: 
+                game = False 
+            for star in stars[:]:
+                if player.rect.colliderect(pygame.Rect(star[0], star[1], star_image.get_width(), star_image.get_height())):
+                    pygame.mixer.Sound.play(star_collect)
+                    stars.remove(star)
+                    collected_stars += 1
+
+        if collected_stars >= 3:
+            door.rect.x, door.rect.y = 50, 100
+
         for star in stars:
             window.blit(star_image, star)
 
@@ -302,10 +312,6 @@ while game:
 
         for i in range(life):
             window.blit(heart_image, (10 + i * (heart_image.get_width() + 5), 10))
-            
-
-
-    
 
     clock.tick(30)
     pygame.display.update()
